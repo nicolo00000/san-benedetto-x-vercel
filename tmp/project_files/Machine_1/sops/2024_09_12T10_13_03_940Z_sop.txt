@@ -1,0 +1,33 @@
+**Titolo:** Procedura Operativa Standard per la Pulizia della Macchina_1
+
+**Scopo:** Questa procedura fornisce istruzioni dettagliate per la pulizia della Macchina_1 al fine di mantenere un ambiente di lavoro sicuro e garantire il corretto funzionamento della macchina.
+
+**Ambito:** Questa SOP si applica al personale autorizzato responsabile della pulizia della Macchina_1.
+
+**Responsabilità:**
+- Il responsabile della manutenzione è responsabile di garantire che la Macchina_1 venga pulita regolarmente secondo questa procedura.
+- Gli operatori sono responsabili di seguire le istruzioni fornite e di eseguire correttamente la pulizia della macchina.
+
+**Attrezzature/Materiali necessari:**
+- Panno pulito
+- Detergente non corrosivo
+- Guanti protettivi
+
+**Misure di Sicurezza:**
+- Prima di iniziare la pulizia, assicurarsi che la Macchina_1 sia spenta e scollegata.
+- Indossare sempre i guanti protettivi durante la pulizia per evitare lesioni alla pelle.
+- Utilizzare solo detergenti non corrosivi per evitare danni alla macchina.
+- Prestare attenzione ai bordi affilati o alle superfici calde durante la pulizia per evitare ferite.
+
+**Procedure:**
+1. Scollegare la Macchina_1 dalla fonte di alimentazione e assicurarsi che sia spenta.
+2. Indossare i guanti protettivi.
+3. Prendere il panno pulito e inumidirlo con il detergente non corrosivo.
+4. Pulire delicatamente tutte le superfici esterne della Macchina_1 con il panno umido, assicurandosi di rimuovere lo sporco e i residui.
+5. Se necessario, utilizzare un altro panno pulito per asciugare le superfici e garantire che non rimangano residui di detergente.
+6. Controllare che tutte le parti della Macchina_1 siano pulite e che non ci siano accumuli di sporco o residui.
+7. Verificare che non ci siano perdite di liquidi o danni visibili alla macchina durante la pulizia.
+8. Una volta completata la pulizia, rimuovere i guanti e riporre correttamente il materiale utilizzato.
+9. Ricollegare la Macchina_1 alla fonte di alimentazione e accenderla per riprendere le normali operazioni.
+
+Seguendo attentamente questa procedura, la Macchina_1 sarà mantenuta in condizioni ottimali e pronta per l'uso sicuro e efficiente.

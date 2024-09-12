@@ -1,0 +1,40 @@
+**Standard Operating Procedure (SOP) for Machine_1**
+
+**Titolo:** Pulizia della Pulezza per Machine_1
+
+**Scopo:** Questa procedura dettaglia il processo per staccare, pulire e riattaccare la pulezza su Machine_1 per garantire un corretto funzionamento e mantenere la sicurezza sul luogo di lavoro.
+
+**Ambito:** Questa procedura si applica a tutti gli operatori responsabili della manutenzione di Machine_1.
+
+**Responsabilità:**
+- Gli operatori sono responsabili di eseguire la procedura di pulizia della pulezza in conformità con questo SOP.
+- Il supervisore è responsabile di assicurarsi che la procedura venga eseguita correttamente e in modo sicuro.
+
+**Attrezzature/Materiali necessari:**
+- Guanti protettivi
+- Panni puliti
+- Soluzione detergente non corrosiva
+
+**Misure di Sicurezza:**
+- Assicurarsi che Machine_1 sia spenta prima di iniziare la procedura.
+- Indossare sempre guanti protettivi durante la manipolazione della pulezza.
+- Prestare attenzione a eventuali componenti mobili o taglienti sulla pulezza per evitare lesioni.
+
+**Procedure:**
+1. Staccare la pulezza: 
+   - Assicurarsi che Machine_1 sia spenta.
+   - Localizzare la pulezza e rimuoverla con cura dalla sua posizione.
+   - Tenere la pulezza in posizione sicura per la pulizia.
+
+2. Pulire la pulezza:
+   - Indossare i guanti protettivi.
+   - Utilizzare un panno pulito inumidito con la soluzione detergente per pulire accuratamente la pulezza.
+   - Rimuovere eventuali residui o sporco sulla superficie della pulezza.
+   - Assicurarsi che la pulezza sia completamente asciutta prima di procedere al passo successivo.
+
+3. Riattaccare la pulezza:
+   - Una volta che la pulezza è pulita e asciutta, posizionarla nuovamente nella sua sede originale su Machine_1.
+   - Assicurarsi che la pulezza sia saldamente fissata e che non ci siano parti incastrate o bloccate.
+   - Verificare che la pulezza sia correttamente allineata per garantire un corretto funzionamento.
+
+Questa procedura dovrebbe essere eseguita regolarmente per mantenere la pulezza in condizioni ottimali e garantire la sicurezza sul luogo di lavoro.

@@ -1,0 +1,33 @@
+**Standard Operating Procedure (SOP) for Machine_1**
+
+**Title:** Procedura per la Pulizia della Macchina_1
+
+**Purpose:** Questa procedura ha lo scopo di garantire che la macchina sia pulita e pronta per l'uso ottimale.
+
+**Scope:** Questa procedura si applica alla pulizia della Macchina_1.
+
+**Responsibilities:**
+- L'operatore responsabile della pulizia della Macchina_1.
+
+**Equipment/Materials Needed:**
+- Panno pulito
+- Detergente non abrasivo
+- Acqua pulita
+
+**Safety Precautions:**
+- Assicurarsi che la macchina sia spenta prima di iniziare la pulizia.
+- Indossare guanti protettivi durante la pulizia per evitare irritazioni cutanee.
+- Evitare di far entrare acqua all'interno della macchina.
+
+**Procedura:**
+1. Stacca la Macchina_1 dalla presa di corrente.
+2. Prepara il detergente non abrasivo diluendolo in acqua pulita.
+3. Immergi il panno pulito nella soluzione detergente.
+4. Pulisci delicatamente tutte le superfici esterne della Macchina_1 con il panno umido.
+5. Assicurati di rimuovere eventuali residui di sporco o macchie.
+6. Risciacqua il panno con acqua pulita e strizzalo bene.
+7. Passa il panno pulito e bagnato sulle superfici pulite per rimuovere eventuali residui di detergente.
+8. Riattacca la Macchina_1 alla presa di corrente solo quando tutte le superfici sono asciutte.
+9. Verifica che la Macchina_1 sia pronta per l'uso.
+
+Questa procedura dovrebbe essere eseguita regolarmente per garantire che la Macchina_1 sia sempre pulita e funzionante in modo ottimale.
