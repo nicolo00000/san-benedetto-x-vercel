@@ -1,0 +1,30 @@
+**Standard Operating Procedure (SOP) for Machine_1: Pulley Maintenance**
+
+**Purpose:** 
+This SOP outlines the procedure for removing, cleaning, and reinstalling the pulley on Machine_1 to ensure smooth operation and prevent malfunctions.
+
+**Scope:** 
+This procedure applies to all operators responsible for maintaining Machine_1.
+
+**Responsibilities:** 
+- Operators: Follow the SOP for pulley maintenance on Machine_1.
+- Maintenance personnel: Provide guidance and support if needed.
+
+**Equipment/Materials Needed:**
+- Gloves
+- Safety goggles
+- Rag
+- Cleaning solution
+
+**Safety Precautions:**
+1. Ensure Machine_1 is turned off and disconnected from the power source before starting maintenance.
+2. Wear appropriate personal protective equipment, including gloves and safety goggles, to prevent injury.
+3. Be cautious when handling the pulley to avoid any potential pinch points or sharp edges.
+
+**Procedure:**
+1. Stacca la puleggia: Spegni la macchina e assicurati che sia scollegata dalla fonte di alimentazione.
+2. Pulisce la puleggia: Indossa i guanti e gli occhiali di sicurezza. Usa un panno pulito inumidito con una soluzione detergente per pulire accuratamente la puleggia, rimuovendo eventuali residui o sporco.
+3. Ritacca la puleggia: Una volta pulita, assicurati che la puleggia sia asciutta e libera da residui. Reinseriscila con cura nella posizione corretta, assicurandoti che sia saldamente fissata.
+4. Accendi la macchina e verifica che la puleggia funzioni correttamente.
+
+This SOP should be followed whenever maintenance is required on the pulley of Machine_1 to ensure optimal performance and safety.

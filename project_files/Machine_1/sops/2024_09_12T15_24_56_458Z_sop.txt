@@ -1,0 +1,30 @@
+**Title:** Procedura operativa standard per la pulizia di Machine_1
+
+**Purpose:** Questa procedura dettaglia come eseguire correttamente la pulizia di Machine_1 per garantire un funzionamento ottimale e mantenere gli standard di igiene.
+
+**Scope:** Questa SOP si applica a tutto il personale autorizzato ad eseguire operazioni di pulizia su Machine_1.
+
+**Responsabilità:**
+- Il responsabile della manutenzione è responsabile di garantire che la pulizia di Machine_1 venga eseguita regolarmente e correttamente.
+- Gli operatori sono responsabili di seguire scrupolosamente la procedura di pulizia e di segnalare eventuali problemi al responsabile della manutenzione.
+
+**Attrezzature/Materiali necessari:**
+- Panno pulito
+- Detergente non abrasivo
+- Guanti protettivi
+
+**Precauzioni di sicurezza:**
+- Prima di iniziare la pulizia, assicurarsi che Machine_1 sia spenta e scollegata.
+- Indossare sempre guanti protettivi per evitare irritazioni cutanee.
+- Utilizzare solo detergenti non abrasivi per evitare danni alla superficie di Machine_1.
+
+**Procedura:**
+1. Stacca la pulizia di Machine_1.
+2. Prepara il detergente non abrasivo e il panno pulito.
+3. Pulisci accuratamente tutte le superfici esterne di Machine_1 con il panno inumidito con il detergente. Assicurati di rimuovere eventuali residui di sporco o polvere.
+4. Una volta completata la pulizia, risciacqua il panno e passalo nuovamente su tutte le superfici per eliminare eventuali residui di detergente.
+5. Ritacca la pulizia di Machine_1.
+6. Verifica che tutte le superfici siano asciutte e prive di residui di detergente.
+7. Riaccendi Machine_1 solo dopo esserti assicurato che tutte le superfici siano completamente asciutte.
+
+**Nota:** Assicurati di eseguire questa procedura regolarmente per mantenere Machine_1 pulita e funzionante in modo ottimale.

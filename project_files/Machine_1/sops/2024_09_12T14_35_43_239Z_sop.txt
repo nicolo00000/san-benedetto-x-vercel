@@ -1,0 +1,32 @@
+# Standard Operating Procedure for Machine_1
+## Procedura Operativa Standard per Macchina_1
+
+### Purpose:
+Il presente documento fornisce linee guida dettagliate per staccare, pulire e riattaccare la puleggia, collegare la spina e lavarsi le mani in modo sicuro ed efficiente utilizzando la Macchina_1.
+
+### Scope:
+Questa procedura si applica a tutti gli operatori responsabili della manutenzione e dell'utilizzo della Macchina_1.
+
+### Responsibilities:
+- Gli operatori devono seguire attentamente la procedura per garantire la corretta esecuzione delle attività.
+- Il responsabile della manutenzione è responsabile di controllare regolarmente lo stato della puleggia e garantire che venga eseguita la manutenzione necessaria.
+
+### Equipment/Materials Needed:
+- Guanti protettivi
+- Panno pulito
+- Detergente per pulire la puleggia
+
+### Safety Precautions:
+- Assicurarsi che la Macchina_1 sia spenta prima di iniziare la procedura.
+- Indossare sempre guanti protettivi durante la manipolazione della puleggia.
+- Prestare attenzione per evitare lesioni durante la pulizia e il riattacco della puleggia.
+
+### Step-by-Step Procedures:
+1. Staccare la puleggia dalla macchina con attenzione.
+2. Pulire accuratamente la puleggia utilizzando un panno pulito e un detergente appropriato.
+3. Riattaccare la puleggia alla macchina assicurandola con le quattro viti.
+4. Collegare la spina della Macchina_1 alla presa di corrente.
+5. Lavarsi accuratamente le mani con acqua e sapone.
+6. Verificare che la puleggia sia fissata saldamente e che la Macchina_1 funzioni correttamente.
+
+Una volta completata la procedura, assicurarsi di conservare correttamente gli strumenti utilizzati e di mantenere pulito l'ambiente circostante.

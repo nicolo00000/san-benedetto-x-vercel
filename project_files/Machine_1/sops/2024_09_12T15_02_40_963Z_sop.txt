@@ -1,0 +1,27 @@
+**Titolo:** Procedura Operativa Standard per la Pulizia della Macchina_1
+
+**Scopo:** Questa procedura dettaglia il processo per staccare, pulire e riattaccare la pulizia della Macchina_1 al fine di garantire il corretto funzionamento e la manutenzione della macchina.
+
+**Ambito:** Questa procedura si applica al personale responsabile della manutenzione e pulizia della Macchina_1.
+
+**Responsabilità:**
+- Il responsabile della manutenzione è responsabile di seguire correttamente questa procedura.
+- Il responsabile della sicurezza sul luogo di lavoro deve assicurarsi che tutte le precauzioni di sicurezza siano rispettate durante l'esecuzione di questa procedura.
+
+**Attrezzature/Materiali necessari:**
+- Panno per la pulizia
+- Detergente non abrasivo
+- Guanti protettivi
+
+**Precauzioni di sicurezza:**
+- Assicurarsi che la macchina sia spenta prima di iniziare la pulizia.
+- Indossare guanti protettivi durante la pulizia per evitare lesioni alla pelle.
+- Prestare attenzione ai componenti mobili della macchina per evitare infortuni.
+
+**Procedure passo-passo:**
+1. Stacca la pulizia: Assicurati che la Macchina_1 sia spenta. Localizza il sistema di pulizia e scollegalo con attenzione.
+2. Pulisci la pulizia: Indossa i guanti protettivi. Usa un panno per la pulizia inumidito con detergente non abrasivo per pulire accuratamente la parte della pulizia. Rimuovi eventuali residui o sporco con delicatezza.
+3. Ritacca la pulizia: Una volta completata la pulizia, assicurati che la parte pulita sia asciutta. Riattacca con cura il sistema di pulizia alla Macchina_1 assicurandoti che sia fissato correttamente.
+4. Verifica: Accendi la Macchina_1 e verifica che il sistema di pulizia funzioni correttamente dopo essere stato riattaccato.
+
+Seguendo questa procedura in modo accurato, garantirai che la Macchina_1 sia pulita e funzionante correttamente per le operazioni future.

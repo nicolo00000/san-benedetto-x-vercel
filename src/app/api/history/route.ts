@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { userFiles } from '@/lib/db/schema';
-import { getAuth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import { promises as fs } from 'fs';
 import path from 'path';
 import { desc, eq } from 'drizzle-orm';
 import OpenAI from 'openai';
 
-export const dynamic = 'force-dynamic';
-
+// Initialize OpenAI client
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+// Function to generate summary from transcript
 async function generateSummary(transcript: string): Promise<string> {
   try {
     const completion = await openai.chat.completions.create({
@@ -35,9 +35,11 @@ async function generateSummary(transcript: string): Promise<string> {
   }
 }
 
+// GET route handler
 export async function GET(req: NextRequest) {
   try {
-    const { userId } = getAuth(req);
+    // Authenticate user
+    const { userId } = auth();
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -48,74 +50,52 @@ export async function GET(req: NextRequest) {
       .where(eq(userFiles.userId, userId))
       .orderBy(desc(userFiles.createdAt));
 
-    // Group files by their original audio file
-    const groupedFiles = files.reduce((acc, file) => {
-      const key = file.fileName.split('_')[0]; // Assuming the timestamp is the first part of the filename
-      if (!acc[key]) {
-        acc[key] = { sop: null, transcript: null };
-      }
-      if (file.fileType === 'sop') acc[key].sop = file;
-      if (file.fileType === 'transcript') acc[key].transcript = file;
-      return acc;
-    }, {} as Record<string, { sop: any, transcript: any }>);
+    // Filter SOP and transcript files
+    const sopFiles = files.filter(file => file.fileType === 'sop');
+    const transcriptFiles = files.filter(file => file.fileType === 'transcript');
 
-    // Process each group of files
-    const processedFiles = await Promise.all(
-      Object.values(groupedFiles).map(async ({ sop, transcript }) => {
-        if (!sop || !transcript) return null; // Skip if we don't have both SOP and transcript
-        const sopPath = path.resolve(sop.filePath);
-        const transcriptPath = path.resolve(transcript.filePath);
-
+    // Process SOP files and add content
+    const sopFilesWithContent = await Promise.all(
+      sopFiles.map(async (file) => {
+        const sopPath = path.resolve(file.filePath);
         try {
-          // Check if the SOP file exists
-          let sopContent = '';
-          try {
-            await fs.access(sopPath);
-            sopContent = await fs.readFile(sopPath, 'utf-8');
-          } catch (err) {
-            if (err instanceof Error && 'code' in err && (err as any).code === 'ENOENT') {
-              console.warn(`SOP file not found: ${sopPath}`);
-            } else {
-              throw err; // Re-throw other errors
-            }
-          }
-
-          // Check if the transcript file exists
-          let transcriptContent = '';
-          try {
-            await fs.access(transcriptPath);
-            transcriptContent = await fs.readFile(transcriptPath, 'utf-8');
-          } catch (err) {
-            if (err instanceof Error && 'code' in err && (err as any).code === 'ENOENT') {
-              console.warn(`Transcript file not found: ${transcriptPath}`);
-            } else {
-              throw err; // Re-throw other errors
-            }
-          }
-
-          // Generate summary if the transcript content exists
-          const summary = transcriptContent
-            ? await generateSummary(transcriptContent)
-            : 'No transcript available for summary';
-
-          return {
-            id: sop.id,
-            fileName: sop.fileName,
-            machineName: sop.machineName,
-            createdAt: sop.createdAt,
-            content: sopContent || 'No SOP content available',
-            summary
-          };
+          const content = await fs.readFile(sopPath, 'utf-8');
+          return { ...file, content };
         } catch (err) {
-          console.error(`Error processing files: ${sopPath}, ${transcriptPath}`, err);
-          return null;
+          console.error(`Error reading SOP file at ${sopPath}:`, err);
+          return { ...file, content: 'Error reading SOP file' };
         }
       })
     );
 
-    // Filter out any null results and send the response
-    const validFiles = processedFiles.filter(file => file !== null);
-    return NextResponse.json(validFiles);
+    // Process transcript files, generate summaries, and add content
+    const transcriptFilesWithSummary = await Promise.all(
+      transcriptFiles.map(async (file) => {
+        const transcriptPath = path.resolve(file.filePath);
+        try {
+          const content = await fs.readFile(transcriptPath, 'utf-8');
+          const summary = await generateSummary(content);
+          return { ...file, content, summary };
+        } catch (err) {
+          console.error(`Error reading transcript file at ${transcriptPath}:`, err);
+          return { ...file, content: 'Error reading transcript file', summary: 'Unable to generate summary' };
+        }
+      })
+    );
+
+    // Combine SOP and transcript information
+    const combinedFiles = sopFilesWithContent.map(sopFile => {
+      const relatedTranscript = transcriptFilesWithSummary.find(
+        transcriptFile => transcriptFile.fileName.split('_')[0] === sopFile.fileName.split('_')[0]
+      );
+      return {
+        ...sopFile,
+        transcriptContent: relatedTranscript?.content || 'No transcript available',
+        summary: relatedTranscript?.summary || 'No summary available'
+      };
+    });
+
+    return NextResponse.json(combinedFiles);
   } catch (error) {
     console.error('Error fetching user history:', error);
     return NextResponse.json({

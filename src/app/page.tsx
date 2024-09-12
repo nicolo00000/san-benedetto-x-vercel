@@ -103,16 +103,24 @@ const AudioToSopConverter = () => {
     fetchUserHistory();
   }, []);
 
+  useEffect(() => {
+    console.log('userFiles updated:', userFiles);
+  }, [userFiles]);
+
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'it' ? 'en' : 'it');
   };
 
   const fetchUserHistory = async () => {
     try {
+      console.log('Fetching user history...');
       const response = await fetch('/api/history');
+      console.log('History response status:', response.status);
       if (response.ok) {
         const files = await response.json();
+        console.log('Received files:', files);
         const sopFiles = files.filter((file: UserFile) => file.fileType === 'sop');
+        console.log('Filtered SOP files:', sopFiles);
         setUserFiles(sopFiles);
       } else {
         console.error('Failed to fetch user history');
@@ -162,6 +170,7 @@ const AudioToSopConverter = () => {
     formData.append('language', language);
   
     try {
+      console.log('Uploading audio...');
       const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
@@ -180,7 +189,7 @@ const AudioToSopConverter = () => {
           }
   
           setLatestResult(result);
-          fetchUserHistory();
+          fetchUserHistory(); // Call this to update the SOP history
           setContentType(null);
         } catch (error) {
           console.error('Error parsing JSON response:', error);
@@ -241,6 +250,10 @@ const AudioToSopConverter = () => {
     if (typeof text !== 'string' || text.trim() === '') {
       return `<p class="text-gray-500 italic">${t.noSummaryAvailable}</p>`;
     }
+
+    // Make the "###" titles bold
+    text = text.replace(/###\s*(.*?)(\r\n|\n)/g, '<strong>$1</strong><br>');
+
     text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     
     if (text.startsWith("1. ")) {
@@ -344,7 +357,7 @@ const AudioToSopConverter = () => {
             </div>
           )}
 
-{latestResult && (
+          {latestResult && (
             <div className="mt-8 p-4 border border-gray-200 rounded bg-gray-50">
               <h2 className="text-xl font-semibold mb-2 text-gray-800">{t.result}</h2>
               <h3 className="font-semibold text-gray-700">{t.machine}: {latestResult.machine}</h3>
