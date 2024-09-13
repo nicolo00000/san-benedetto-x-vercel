@@ -6,7 +6,7 @@ import { auth } from "@clerk/nextjs/server";
 import { Buffer } from 'buffer';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const ALLOWED_EXTENSIONS = ['wav', 'webm'];
+const ALLOWED_EXTENSIONS = ['flac', 'm4a', 'mp3', 'mp4', 'mpeg', 'mpga', 'oga', 'ogg', 'wav', 'webm'];
 
 function allowedFile(filename: string): boolean {
   const ext = filename.split('.').pop()?.toLowerCase();
