@@ -6,6 +6,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { desc, eq } from 'drizzle-orm';
 import OpenAI from 'openai';
+export const dynamic = 'force-dynamic';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 

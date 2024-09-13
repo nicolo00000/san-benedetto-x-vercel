@@ -1,5 +1,6 @@
-import { pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, timestamp, varchar, integer } from 'drizzle-orm/pg-core';
 
+// userSubscriptions table
 export const userSubscriptions = pgTable('user_subscriptions', {
   id: serial('id').primaryKey(),
   userId: varchar('user_id', { length: 256 }).notNull(),
@@ -9,6 +10,7 @@ export const userSubscriptions = pgTable('user_subscriptions', {
   stripeCurrentPeriodEnd: timestamp('stripe_current_period_end').notNull(),
 });
 
+// userFiles table
 export const userFiles = pgTable('user_files', {
   id: serial('id').primaryKey(),
   userId: varchar('user_id', { length: 256 }).notNull(),
@@ -16,5 +18,13 @@ export const userFiles = pgTable('user_files', {
   fileType: varchar('file_type', { length: 50 }).notNull(),
   filePath: varchar('file_path', { length: 512 }).notNull(),
   machineName: varchar('machine_name', { length: 100 }).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// carts table
+export const carts = pgTable('carts', {
+  id: serial('id').primaryKey(),
+  userId: varchar('user_id', { length: 256 }).notNull(),
+  quantity: integer('quantity').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
