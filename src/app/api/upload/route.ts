@@ -3,8 +3,6 @@ import { OpenAI } from 'openai';
 import { db } from '@/lib/db';
 import { userFiles } from '@/lib/db/schema';
 import { auth } from "@clerk/nextjs/server";
-import fs from 'fs';
-import { Readable } from 'stream';
 import { Buffer } from 'buffer';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -13,13 +11,6 @@ const ALLOWED_EXTENSIONS = ['wav', 'webm'];
 function allowedFile(filename: string): boolean {
   const ext = filename.split('.').pop()?.toLowerCase();
   return ext ? ALLOWED_EXTENSIONS.includes(ext) : false;
-}
-
-function bufferToStream(buffer: Buffer) {
-  const readable = new Readable();
-  readable.push(buffer);
-  readable.push(null);
-  return readable;
 }
 
 async function transcribeAudio(file: File, language: string): Promise<string> {
@@ -115,11 +106,8 @@ export async function POST(req: NextRequest) {
     // Read audio file content as binary data
     const audioBuffer = Buffer.from(await audio.arrayBuffer());
 
-    // Convert Buffer to a readable stream
-    const audioStream = bufferToStream(audioBuffer);
-
     // Transcribe the audio content
-    const transcript = await transcribeAudio(audioStream as unknown as File, language);
+    const transcript = await transcribeAudio(audio, language);
     console.log('Transcription completed');
 
     // Generate SOP and Summary
