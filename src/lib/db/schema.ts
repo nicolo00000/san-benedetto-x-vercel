@@ -16,7 +16,7 @@ export const userFiles = pgTable('user_files', {
   userId: varchar('user_id', { length: 256 }).notNull(),
   fileName: varchar('file_name', { length: 256 }).notNull(),
   fileType: varchar('file_type', { length: 50 }).notNull(),
-  filePath: varchar('file_path', { length: 512 }).notNull(),
+  fileData: text('file_data').notNull(),  // Store binary data as Base64-encoded string
   machineName: varchar('machine_name', { length: 100 }).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });

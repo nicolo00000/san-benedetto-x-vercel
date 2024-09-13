@@ -1,57 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { OpenAI } from 'openai';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
-import { exec } from 'child_process';
-import util from 'util';
-import fs from 'fs';
 import { db } from '@/lib/db';
 import { userFiles } from '@/lib/db/schema';
 import { auth } from "@clerk/nextjs/server";
-
-const execAsync = util.promisify(exec);
+import fs from 'fs';
+import { Readable } from 'stream';
+import { Buffer } from 'buffer';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-const PROJECT_FOLDER = 'project_files';
-const MACHINES = ['Machine_1', 'Machine_2', 'Machine_3'];
 const ALLOWED_EXTENSIONS = ['wav', 'webm'];
-
-async function createFolders() {
-  for (const machine of MACHINES) {
-    const machinePath = path.join(PROJECT_FOLDER, machine);
-    await mkdir(path.join(machinePath, 'audio'), { recursive: true });
-    await mkdir(path.join(machinePath, 'transcripts'), { recursive: true });
-    await mkdir(path.join(machinePath, 'sops'), { recursive: true });
-  }
-}
 
 function allowedFile(filename: string): boolean {
   const ext = filename.split('.').pop()?.toLowerCase();
   return ext ? ALLOWED_EXTENSIONS.includes(ext) : false;
 }
 
-async function convertWebmToWav(inputPath: string): Promise<string> {
-  const outputPath = inputPath.replace('.webm', '.wav');
-  const ffmpegCommand = `ffmpeg -i ${inputPath} -acodec pcm_s16le -ar 16000 ${outputPath}`;
-  console.log(`Running ffmpeg command: ${ffmpegCommand}`);
-  
-  try {
-    const { stdout, stderr } = await execAsync(ffmpegCommand);
-    console.log('ffmpeg stdout:', stdout);
-    console.log('ffmpeg stderr:', stderr);
-    return outputPath;
-  } catch (error) {
-    console.error('Error during WebM to WAV conversion:', error);
-    throw new Error('Failed to convert WebM to WAV');
-  }
+function bufferToStream(buffer: Buffer) {
+  const readable = new Readable();
+  readable.push(buffer);
+  readable.push(null);
+  return readable;
 }
 
-async function transcribeAudio(filepath: string, language: string): Promise<string> {
-  console.log(`Transcribing audio file: ${filepath}`);
+async function transcribeAudio(file: File, language: string): Promise<string> {
+  console.log(`Transcribing audio file`);
   try {
     const transcription = await openai.audio.transcriptions.create({
-      file: fs.createReadStream(filepath),
+      file,
       model: 'whisper-1',
       language: language === 'it' ? 'it' : 'en',
     });
@@ -116,11 +91,9 @@ async function generateSummary(transcript: string, language: string): Promise<st
 }
 
 export async function POST(req: NextRequest) {
-  await createFolders();
-
   try {
     console.log('POST request received');
-    
+
     const { userId } = auth();
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -131,8 +104,6 @@ export async function POST(req: NextRequest) {
     const machineName = formData.get('machine') as string;
     const language = formData.get('language') as string;
 
-    console.log(`Upload request received for machine: ${machineName}, language: ${language}`);
-
     if (!audio || !machineName || !language) {
       return NextResponse.json({ error: 'Missing audio, machine name, or language' }, { status: 400 });
     }
@@ -141,72 +112,60 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'File type not allowed' }, { status: 400 });
     }
 
-    const timestamp = new Date().toISOString().replace(/[:.-]/g, '_');
-    const filename = `${timestamp}_${audio.name}`;
-    const machinePath = path.join(PROJECT_FOLDER, machineName);
-    const audioPath = path.join(machinePath, 'audio', filename);
+    // Read audio file content as binary data
+    const audioBuffer = Buffer.from(await audio.arrayBuffer());
 
-    await writeFile(audioPath, Buffer.from(await audio.arrayBuffer()));
-    console.log(`Audio file saved to: ${audioPath}`);
+    // Convert Buffer to a readable stream
+    const audioStream = bufferToStream(audioBuffer);
 
-    let wavPath = audioPath;
-    if (audioPath.toLowerCase().endsWith('.webm')) {
-      wavPath = await convertWebmToWav(audioPath);
-    }
-
-    const transcript = await transcribeAudio(wavPath, language);
+    // Transcribe the audio content
+    const transcript = await transcribeAudio(audioStream as unknown as File, language);
     console.log('Transcription completed');
 
+    // Generate SOP and Summary
     const sop = await generateSOP(transcript, machineName, language);
     console.log('SOP generated');
-
     const summary = await generateSummary(transcript, language);
     console.log('Summary generated');
 
-    const transcriptPath = path.join(machinePath, 'transcripts', `${timestamp}_transcript.txt`);
-    const sopPath = path.join(machinePath, 'sops', `${timestamp}_sop.txt`);
+    // Save file metadata and binary data in the database
+    const timestamp = new Date().toISOString().replace(/[:.-]/g, '_');
+    const filename = `${timestamp}_${audio.name}`;
 
-    await writeFile(transcriptPath, transcript);
-    await writeFile(sopPath, sop);
+    await db.insert(userFiles).values({
+      userId,
+      fileName: filename,
+      fileType: 'audio',
+      fileData: audioBuffer.toString('base64'), // Store audio data as Base64-encoded string
+      machineName,
+    });
 
-    await db.insert(userFiles).values([
-      {
-        userId,
-        fileName: path.basename(audioPath),
-        fileType: 'audio',
-        filePath: audioPath,
-        machineName,
-      },
-      {
-        userId,
-        fileName: path.basename(transcriptPath),
-        fileType: 'transcript',
-        filePath: transcriptPath,
-        machineName,
-      },
-      {
-        userId,
-        fileName: path.basename(sopPath),
-        fileType: 'sop',
-        filePath: sopPath,
-        machineName,
-      },
-    ]);
+    await db.insert(userFiles).values({
+      userId,
+      fileName: `${filename}_transcript`,
+      fileType: 'transcript',
+      fileData: Buffer.from(transcript).toString('base64'), // Store transcript as Base64-encoded string
+      machineName,
+    });
+
+    await db.insert(userFiles).values({
+      userId,
+      fileName: `${filename}_sop`,
+      fileType: 'sop',
+      fileData: Buffer.from(sop).toString('base64'), // Store SOP as Base64-encoded string
+      machineName,
+    });
 
     return NextResponse.json({
       machine: machineName,
-      audioFile: audioPath,
-      transcriptFile: transcriptPath,
-      sopFile: sopPath,
       transcript,
       summary,
-      sop
+      sop,
     });
-
   } catch (error) {
     console.error('Error processing upload:', error);
-    return NextResponse.json({ 
-      error: 'Internal server error', 
+    return NextResponse.json({
+      error: 'Internal server error',
       details: error instanceof Error ? error.message : 'Unknown error occurred'
     }, { status: 500 });
   }

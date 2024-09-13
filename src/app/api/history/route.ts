@@ -2,9 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { userFiles } from '@/lib/db/schema';
 import { auth } from "@clerk/nextjs/server";
-import { promises as fs } from 'fs';
-import path from 'path';
-import { desc, eq } from 'drizzle-orm';
+import { eq, desc } from 'drizzle-orm';
 import OpenAI from 'openai';
 export const dynamic = 'force-dynamic';
 
@@ -41,6 +39,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // Fetch files related to the user
     const files = await db.select()
       .from(userFiles)
       .where(eq(userFiles.userId, userId))
@@ -49,41 +48,14 @@ export async function GET(req: NextRequest) {
     const sopFiles = files.filter(file => file.fileType === 'sop');
     const transcriptFiles = files.filter(file => file.fileType === 'transcript');
 
-    const sopFilesWithContent = await Promise.all(
-      sopFiles.map(async (file) => {
-        const sopPath = path.resolve(file.filePath);
-        try {
-          const content = await fs.readFile(sopPath, 'utf-8');
-          return { ...file, content };
-        } catch (err) {
-          console.error(`Error reading SOP file at ${sopPath}:`, err);
-          return { ...file, content: 'Error reading SOP file' };
-        }
-      })
-    );
-
-    const transcriptFilesWithSummary = await Promise.all(
-      transcriptFiles.map(async (file) => {
-        const transcriptPath = path.resolve(file.filePath);
-        try {
-          const content = await fs.readFile(transcriptPath, 'utf-8');
-          const summary = await generateSummary(content);
-          return { ...file, content, summary };
-        } catch (err) {
-          console.error(`Error reading transcript file at ${transcriptPath}:`, err);
-          return { ...file, content: 'Error reading transcript file', summary: 'Unable to generate summary' };
-        }
-      })
-    );
-
-    const combinedFiles = sopFilesWithContent.map(sopFile => {
-      const relatedTranscript = transcriptFilesWithSummary.find(
+    const combinedFiles = sopFiles.map(sopFile => {
+      const relatedTranscript = transcriptFiles.find(
         transcriptFile => transcriptFile.fileName.split('_')[0] === sopFile.fileName.split('_')[0]
       );
       return {
         ...sopFile,
-        transcriptContent: relatedTranscript?.content || 'No transcript available',
-        summary: relatedTranscript?.summary || 'No summary available'
+        transcript: relatedTranscript?.fileData.toString() || 'No transcript available',
+        summary: relatedTranscript ? generateSummary(relatedTranscript.fileData.toString()) : 'No summary available'
       };
     });
 
