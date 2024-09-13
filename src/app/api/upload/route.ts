@@ -13,12 +13,10 @@ const execAsync = util.promisify(exec);
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// Define constants
 const PROJECT_FOLDER = 'project_files';
 const MACHINES = ['Machine_1', 'Machine_2', 'Machine_3'];
 const ALLOWED_EXTENSIONS = ['wav', 'webm'];
 
-// Helper functions
 async function createFolders() {
   for (const machine of MACHINES) {
     const machinePath = path.join(PROJECT_FOLDER, machine);
@@ -171,7 +169,6 @@ export async function POST(req: NextRequest) {
     await writeFile(transcriptPath, transcript);
     await writeFile(sopPath, sop);
 
-    // Save file information to the database
     await db.insert(userFiles).values([
       {
         userId,

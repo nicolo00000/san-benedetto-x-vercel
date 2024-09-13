@@ -7,10 +7,8 @@ import path from 'path';
 import { desc, eq } from 'drizzle-orm';
 import OpenAI from 'openai';
 
-// Initialize OpenAI client
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// Function to generate summary from transcript
 async function generateSummary(transcript: string): Promise<string> {
   try {
     const completion = await openai.chat.completions.create({
@@ -35,26 +33,21 @@ async function generateSummary(transcript: string): Promise<string> {
   }
 }
 
-// GET route handler
 export async function GET(req: NextRequest) {
   try {
-    // Authenticate user
     const { userId } = auth();
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Fetch all files related to the user
     const files = await db.select()
       .from(userFiles)
       .where(eq(userFiles.userId, userId))
       .orderBy(desc(userFiles.createdAt));
 
-    // Filter SOP and transcript files
     const sopFiles = files.filter(file => file.fileType === 'sop');
     const transcriptFiles = files.filter(file => file.fileType === 'transcript');
 
-    // Process SOP files and add content
     const sopFilesWithContent = await Promise.all(
       sopFiles.map(async (file) => {
         const sopPath = path.resolve(file.filePath);
@@ -68,7 +61,6 @@ export async function GET(req: NextRequest) {
       })
     );
 
-    // Process transcript files, generate summaries, and add content
     const transcriptFilesWithSummary = await Promise.all(
       transcriptFiles.map(async (file) => {
         const transcriptPath = path.resolve(file.filePath);
@@ -83,7 +75,6 @@ export async function GET(req: NextRequest) {
       })
     );
 
-    // Combine SOP and transcript information
     const combinedFiles = sopFilesWithContent.map(sopFile => {
       const relatedTranscript = transcriptFilesWithSummary.find(
         transcriptFile => transcriptFile.fileName.split('_')[0] === sopFile.fileName.split('_')[0]
